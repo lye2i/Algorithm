@@ -4,8 +4,6 @@ class Solution {
     public int solution(int N, int[][] road, int K) {
         int answer = 0;
         int array[][] = new int[N+1][N+1];
-        int dist[] = new int[N+1];
-        boolean visited[] = new boolean[N+1];
         
         for(int i=1; i<=N; i++){
             for(int j=1; j<=N; j++){
