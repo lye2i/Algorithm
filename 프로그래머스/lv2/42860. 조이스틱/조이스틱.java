@@ -23,15 +23,12 @@ class Solution {
         int answer = 0, current = 0, cnt = 0, size = name.length(), limit = name.length()/2+name.length()%2;
         boolean visit[] = new boolean[size];
         
-        for(int i=0; i<size; i++) {
+        for(int i=1; i<size; i++) {
             if(name.charAt(i) != 'A'){
                 visit[i] = true;
                 cnt++;
             }
         }
-        
-        if(visit[0])    cnt--;
-        visit[0] = false;
         
         while(cnt > 0) {
             int leftMax = 20, rightMax = 20, leftCnt = 0, rightCnt = 0;
