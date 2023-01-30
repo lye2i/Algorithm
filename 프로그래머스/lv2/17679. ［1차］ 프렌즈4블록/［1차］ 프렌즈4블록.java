@@ -11,7 +11,6 @@ class Solution {
         for(int i=0; i<m; i++)
             map[i] = board[i].toCharArray();
         
-        
         while(flag) {
             boolean visit[][] = new boolean[m][n];
             List<int[]> list = new ArrayList<int[]>();
@@ -40,8 +39,8 @@ class Solution {
                             }
                         }
                     }
-                    else    visit[i][j] = true;                    
-                }                
+                    else    visit[i][j] = true;
+                }
             }
             
             for(int l = 0; l < list.size(); l++){
