@@ -7,7 +7,6 @@ class Solution {
         Arrays.sort(book_time, new Comparator<String[]>(){
             @Override
             public int compare(String a[], String b[]) {
-                // if(a[1].compareTo(b[1]) == 0)   return a[0].compareTo(b[0]);
                 return a[0].compareTo(b[0]);
             }
         });
