@@ -1,14 +1,12 @@
 class Solution {
     public int solution(int n, int m, int[] section) {
-        int answer = 0;
-        boolean color[] = new boolean[n+1];
+        int answer = 1;
+        int color = section[0];
         
-        for(int i=0; i<section.length; i++){
-            if(!color[section[i]]) {
+        for(int i=1; i<section.length; i++){
+            if(color+m <= section[i]) {
                 answer++;
-                for(int j=section[i]; j<=n && j<section[i]+m; j++){
-                    color[j] = true;
-                }
+                color = section[i];
             }
         }
         
