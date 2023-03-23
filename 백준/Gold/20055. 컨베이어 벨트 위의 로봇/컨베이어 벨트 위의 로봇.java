@@ -1,7 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -20,27 +18,20 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		int A[] = new int[2*N];
-		int size = 2*N, ans = 0, cnt = 0;
+		int in = 0, size = 2*N, ans = 0, cnt = 0;
 		LinkedList<Robot> robot = new LinkedList<Robot>();
-		Deque<Integer> belt1 = new ArrayDeque<Integer>();
-		Deque<Integer> belt2 = new ArrayDeque<Integer>();
 		
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < size; i++) {
 			A[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		for(int i=0; i < N; i++) {
-			belt1.add(i);
-			belt2.add(2*N-i-1);
-		}
-		
 		while(cnt < K) {
 			ans++;
-			belt2.addLast(belt1.pollLast());
-			belt1.addFirst(belt2.pollFirst());
-			
-			if(robot.size() != 0 && belt1.peekLast() == robot.get(0).r)	robot.remove(0);
+			if(--in < 0)	in += size;
+			int out = (in + N - 1)%size;
+					
+			if(robot.size() != 0 && out == robot.get(0).r)	robot.remove(0);
 				
 			for(int i=0; i<robot.size(); i++) {
 				int b = (robot.get(i).r+1)%size;
@@ -53,11 +44,11 @@ public class Main {
 				}
 			}
 			
-			if(robot.size() != 0 && belt1.peekLast() == robot.get(0).r)	robot.remove(0);
+			if(robot.size() != 0 && out == robot.get(0).r)	robot.remove(0);
 			
-			if(A[belt1.peekFirst()] > 0) {
-				if(--A[belt1.peekFirst()] == 0)	cnt++;
-				robot.add(new Robot(belt1.peekFirst()));
+			if(A[in] > 0) {
+				if(--A[in] == 0)	cnt++;
+				robot.add(new Robot(in));
 			}
 		}
 		
