@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -21,17 +20,17 @@ public class Main {
 		int L = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		int ans = 0;
-		ArrayList<Star> list = new ArrayList<Star>();
+		Star stars[] = new Star[K];
 		
 		for(int i=0; i<K; i++) {
 			st = new StringTokenizer(br.readLine());
-			list.add(new Star(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+			stars[i] = new Star(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 		}
 		
-		for(Star s1 : list) {
-			for(Star s2 : list) {
+		for(Star s1 : stars) {
+			for(Star s2 : stars) {
 				int cnt = 0;
-				for(Star s : list) {
+				for(Star s : stars) {
 					if(s.x >= s1.x && s.x <= s1.x+L && s.y >= s2.y && s.y <= s2.y+L)	cnt++;
 				}
 				
