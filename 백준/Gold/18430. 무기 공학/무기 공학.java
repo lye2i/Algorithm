@@ -4,8 +4,8 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int N, M, B[][], ans = 0;
-	static int r[][] = {{0,0,1}, {0,0,-1}, {0,-1,0}, {0,0,1}};
-	static int c[][] = {{0,-1,0}, {0,-1,0}, {0,0,1}, {0,1,0}};
+	static int r[][] = {{0,1}, {0,-1}, {-1,0}, {0,1}};
+	static int c[][] = {{-1,0}, {-1,0}, {0,1}, {1,0}};
 	
 	public static void make(boolean visit[][], int i, int j, int cnt) {
 		if(i == N-1 && j == M) {
@@ -32,7 +32,7 @@ public class Main {
 	}
 	
 	public static boolean checkRange(boolean visit[][], int x, int y, int d) {
-		for(int i=1; i<3; i++) {
+		for(int i=0; i<2; i++) {
 			int dr = x + r[d][i];
 			int dc = y + c[d][i];
 			if(dr < 0 || dr >= N || dc < 0 || dc >= M || visit[dr][dc])	return false;
@@ -41,20 +41,22 @@ public class Main {
 	}
 	
 	public static int checkVisit(boolean visit[][], int x, int y, int d) {
-		int sum = 0;
+		int sum = 2*B[x][y];
+		visit[x][y] = true;
 		
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<2; i++) {
 			int dr = x + r[d][i];
 			int dc = y + c[d][i];
 			visit[dr][dc] = true;
 			sum += B[dr][dc];
 		}
 		
-		return B[x][y]+sum;
+		return sum;
 	}
 	
 	public static void backVisit(boolean visit[][], int x, int y, int d) {
-		for(int i=0; i<3; i++) {
+		visit[x][y] = false;
+		for(int i=0; i<2; i++) {
 			int dr = x + r[d][i];
 			int dc = y + c[d][i];
 			visit[dr][dc] = false;
