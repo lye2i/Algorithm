@@ -1,9 +1,9 @@
 class Solution {
-    static int answer = Integer.MAX_VALUE;
+    static int answer = Integer.MAX_VALUE, n;
     static int pair[][] = {{1,1,1},{5,1,1},{25,5,1}};
     static int mineral[];
     
-    public static void search(int n, int cnt, int[] picks, int turn[]) {
+    public static void search(int cnt, int[] picks, int turn[]) {
         if(cnt == n) {
             int sum = 0, idx = 0;
             
@@ -21,14 +21,14 @@ class Solution {
             if(picks[i] > 0) {
                 picks[i]--;
                 turn[cnt] = i;
-                search(n, cnt+1, picks, turn);
+                search(cnt+1, picks, turn);
                 picks[i]++;
             }
         }
     }
     
     public int solution(int[] picks, String[] minerals) {
-        int n = Math.min(picks[0]+picks[1]+picks[2], minerals.length/5+(minerals.length%5 > 0 ? 1 : 0));
+        n = Math.min(picks[0]+picks[1]+picks[2], minerals.length/5+(minerals.length%5 > 0 ? 1 : 0));
         mineral = new int[minerals.length];
         
         for(int i=0; i<minerals.length; i++) {
@@ -38,7 +38,7 @@ class Solution {
         }
         
         if(picks[0] >= n)   return minerals.length;
-        else    search(n, 0, picks, new int[n]);
+        else    search(0, picks, new int[n]);
         
         return answer;
     }
