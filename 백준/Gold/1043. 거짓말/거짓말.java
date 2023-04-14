@@ -1,62 +1,73 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
-		LinkedList <LinkedList<int[]>> P = new LinkedList<>();
-		st = new StringTokenizer(br.readLine());
-		int trueN = Integer.parseInt(st.nextToken());
-		boolean trueP[] = new boolean[N];
-		boolean visitM[] = new boolean[M];
-		for(int i=0; i<trueN; i++)
-			trueP[Integer.parseInt(st.nextToken())-1] = true;
+		boolean person[] = new boolean[N+1];
+		boolean visit[] = new boolean[M];
+		ArrayList<ArrayList<Integer>> party = new ArrayList<>();
 		
-		for(int i=0; i<N; i++)
-			P.add(new LinkedList<int[]>());
+		for(int i=0; i<M; i++) {
+			party.add(new ArrayList<Integer>());
+		}
+		
+		st = new StringTokenizer(br.readLine());
+		int cnt = Integer.parseInt(st.nextToken());
+		for(int i=0; i<cnt; i++) {
+			int p = Integer.parseInt(st.nextToken());
+			person[p] = true;
+		}
 		
 		for(int i=0; i<M; i++) {
 			st = new StringTokenizer(br.readLine());
-			int n = Integer.parseInt(st.nextToken());			
-			int arr[] = new int[n+1];
-			arr[0] = i;
-			for(int j=1; j<=n; j++) {
-				arr[j] = Integer.parseInt(st.nextToken())-1;
+			int P = Integer.parseInt(st.nextToken());
+			for(int j=0; j<P; j++) {
+				party.get(i).add(Integer.parseInt(st.nextToken()));
 			}
-			
-			for(int j=1; j<arr.length; j++)
-				P.get(arr[j]).add(arr);						
 		}
 		
-		while(true) {
-			int cnt = 0;
+		while(cnt > 0) {
+			cnt = 0;
 			
-			for(int i=0; i<P.size(); i++) {
-				if(trueP[i]) {
-					for (int j = 0; j < P.get(i).size(); j++) {
-						if(!visitM[P.get(i).get(j)[0]]) {
-							for(int k = 1; k < P.get(i).get(j).length; k++) {
-								if(!trueP[P.get(i).get(j)[k]])
-									trueP[P.get(i).get(j)[k]] = true;
-							}
-							visitM[P.get(i).get(j)[0]] = true;
+			for(int i=0; i<M; i++) {
+				if(visit[i])	continue;
+				
+				boolean flag = false;
+				ArrayList<Integer> pty = party.get(i);
+				
+				for(int n : pty) {
+					if(person[n]) {
+						flag = true;
+						break;
+					}
+				}
+				
+				if(flag) {
+					visit[i] = true;
+					for(int n : pty) {
+						if(!person[n]) {
+							person[n] = true;
 							cnt++;
 						}
 					}
 				}
 			}
-			
-			if(cnt==0)	break;
-			M -= cnt;
 		}
-
-		System.out.println(M);
+		
+		int ans = 0;
+		for(int i=0; i<M; i++) {
+			if(!visit[i])	ans++;
+		}
+		
+		System.out.print(ans);
 	}
 }
