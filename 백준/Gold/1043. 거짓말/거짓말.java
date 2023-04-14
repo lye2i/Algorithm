@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,11 +12,7 @@ public class Main {
 		int M = Integer.parseInt(st.nextToken());
 		boolean person[] = new boolean[N+1];
 		boolean visit[] = new boolean[M];
-		ArrayList<ArrayList<Integer>> party = new ArrayList<>();
-		
-		for(int i=0; i<M; i++) {
-			party.add(new ArrayList<Integer>());
-		}
+		ArrayList<Integer>[] party = new ArrayList[M];
 		
 		st = new StringTokenizer(br.readLine());
 		int cnt = Integer.parseInt(st.nextToken());
@@ -28,10 +22,11 @@ public class Main {
 		}
 		
 		for(int i=0; i<M; i++) {
+			party[i] = new ArrayList<Integer>();
 			st = new StringTokenizer(br.readLine());
 			int P = Integer.parseInt(st.nextToken());
 			for(int j=0; j<P; j++) {
-				party.get(i).add(Integer.parseInt(st.nextToken()));
+				party[i].add(Integer.parseInt(st.nextToken()));
 			}
 		}
 		
@@ -42,8 +37,7 @@ public class Main {
 				if(visit[i])	continue;
 				
 				boolean flag = false;
-				ArrayList<Integer> pty = party.get(i);
-				
+				ArrayList<Integer> pty = party[i];
 				for(int n : pty) {
 					if(person[n]) {
 						flag = true;
