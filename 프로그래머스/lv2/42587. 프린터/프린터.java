@@ -14,17 +14,15 @@ class Solution {
         Arrays.sort(priorities);
         
         while(true){
-           
             if(queue.peek()[1] == priorities[n]){
                 answer++;
                 n--;
-                if(queue.poll()[0]==location)
-                    break;
+                
+                if(queue.poll()[0]==location)   break;
             }
-            else{
-                queue.offer(queue.poll());
-            }
+            else    queue.offer(queue.poll());
         }
+        
         return answer;
     }
 }
