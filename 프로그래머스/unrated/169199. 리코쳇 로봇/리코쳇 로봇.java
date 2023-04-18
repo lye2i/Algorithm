@@ -44,13 +44,13 @@ class Solution {
                     int dr = h[0] + r[d];
                     int dc = h[1] + c[d];
                     if(dr >= 0 && dr < N && dc >= 0 && dc < M && board[dr].charAt(dc) != 'D') {
-                        int i = 0;
-                        while(true) {
-                            int ndr = h[0] + r[d]*(i+1);
-                            int ndc = h[1] + c[d]*(i+1);
+                        int i = 1;
+                        while(i++ < Math.max(N, M)) {
+                            int ndr = h[0] + r[d]*i;
+                            int ndc = h[1] + c[d]*i;
                             if(ndr < 0 || ndr >= N || ndc < 0 || ndc >= M || board[ndr].charAt(ndc) == 'D' ) {
-                                ndr = h[0] + r[d]*i;
-                                ndc = h[1] + c[d]*i;
+                                ndr -= r[d];
+                                ndc -= c[d];
                                 if(board[ndr].charAt(ndc) == 'G')   return h[2]+1;
                                 if(!visit[ndr][ndc]) {
                                     visit[ndr][ndc] = true;
@@ -58,7 +58,6 @@ class Solution {
                                 }
                                 break;
                             }
-                            i++;
                         }
                     }
                 }
