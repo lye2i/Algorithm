@@ -8,7 +8,7 @@ public class Main {
 	static char pw[];
 	static StringBuilder sb;
 	
-	public static void makePW(int n, int idx, String s, boolean visit[]) {
+	public static void makePW(int n, int idx, char s[], boolean visit[]) {
 		if(n == L) {
 			if(check(s))	sb.append(s).append("\n");
 			return;
@@ -17,19 +17,20 @@ public class Main {
 		for(int i=idx; i<C; i++) {
 			if(!visit[i]) {
 				visit[i] = true;
-				makePW(n+1, i, s+pw[i], visit);
+				s[n] = pw[i];
+				makePW(n+1, i, s, visit);
 				visit[i] = false;
 			}
 		}
 	}
 	
-	public static boolean check(String s) {
+	public static boolean check(char s[]) {
 		int a = 0, b = 0;
-		for(int i=0; i<s.length(); i++) {
-			if(s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o' || s.charAt(i) == 'u')	a++;
+		for(int i=0; i<L; i++) {
+			if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u')	a++;
 			else	b++;
 		}
-		return a == 0 || b < 2 ? false : true;
+		return a > 0 && b > 1 ? true : false;
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -47,7 +48,7 @@ public class Main {
 		
 		Arrays.sort(pw);
 		
-		makePW(0, 0, "", new boolean[C]);
+		makePW(0, 0, new char[L], new boolean[C]);
 		System.out.print(sb);		
 	}
 }
