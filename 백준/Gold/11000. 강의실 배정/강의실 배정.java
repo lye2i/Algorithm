@@ -22,13 +22,10 @@ public class Main {
 		Arrays.sort(lesson, (a, b) -> a[0] - b[0]);
 		
 		for(int[] l : lesson) {
-			while(!room.isEmpty() && room.peek() <= l[0]) {
-				room.poll();
-			}
+			if(!room.isEmpty() && room.peek() <= l[0])	room.poll();
 			room.add(l[1]);
-			answer = Math.max(answer, room.size());
 		}
 		
-		System.out.print(answer);
+		System.out.print(room.size());
 	}
 }
