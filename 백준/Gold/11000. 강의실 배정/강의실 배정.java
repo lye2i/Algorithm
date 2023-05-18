@@ -11,7 +11,6 @@ public class Main {
 		PriorityQueue<Integer> room = new PriorityQueue<Integer>();
 		int N = Integer.parseInt(br.readLine());
 		int lesson[][] = new int[N][2];
-		int answer = 0;
 		
 		for(int i=0; i<N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
