@@ -13,25 +13,15 @@ public class Main {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int N = Integer.parseInt(st.nextToken());
 			int M = Integer.parseInt(st.nextToken());
-			int A[][] = new int[N][N];
-			int S[][] = new int[N][2];
+			int R[] = new int[N];
+			int C[] = new int[N];
 			
 			for(int i=0; i<N; i++) {
 				st = new StringTokenizer(br.readLine());
 				for(int j=0; j<N; j++) {
-					A[i][j] = Integer.parseInt(st.nextToken());
-				}
-			}
-			
-			for(int i=0; i<N; i++) {
-				for(int j=0; j<N; j++) {
-					S[i][0] += A[i][j];
-				}
-			}
-			
-			for(int i=0; i<N; i++) {
-				for(int j=0; j<N; j++) {
-					S[i][1] += A[j][i];
+					int v = Integer.parseInt(st.nextToken());
+					R[i] += v;
+					C[j] += v;
 				}
 			}
 			
@@ -44,20 +34,20 @@ public class Main {
 				int v = Integer.parseInt(st.nextToken());
 				
 				for(int r=r1; r<=r2; r++) {
-					S[r][0] += v * (c2 - c1 + 1);
+					R[r] += v * (c2 - c1 + 1);
 				}
 				
 				for(int c=c1; c<=c2; c++) {
-					S[c][1] += v * (r2 - r1 + 1);
+					C[c] += v * (r2 - r1 + 1);
 				}
 			}
 			
 			for(int i=0; i<N; i++) {
-				sb.append(S[i][0]+" ");
+				sb.append(R[i]+" ");
 			}
 			sb.append("\n");
 			for(int i=0; i<N; i++) {
-				sb.append(S[i][1]+" ");
+				sb.append(C[i]+" ");
 			}
 			sb.append("\n");			
 		}
