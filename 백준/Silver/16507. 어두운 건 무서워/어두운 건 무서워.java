@@ -32,7 +32,8 @@ public class Main {
 			int c1 = Integer.parseInt(st.nextToken());
 			int r2 = Integer.parseInt(st.nextToken());
 			int c2 = Integer.parseInt(st.nextToken());
-			sb.append((S[r2][c2] - S[r1-1][c2] - S[r2][c1-1] + S[r1-1][c1-1]) / ((r2-r1+1)*(c2-c1+1))).append("\n");
+			int a = (r2-r1+1)*(c2-c1+1);
+			sb.append((S[r2][c2] - S[r1-1][c2] - S[r2][c1-1] + S[r1-1][c1-1]) / a).append("\n");
 		}
 		
 		System.out.print(sb);
