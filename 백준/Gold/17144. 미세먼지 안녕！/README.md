@@ -4,11 +4,11 @@
 
 ### 성능 요약
 
-메모리: 52220 KB, 시간: 560 ms
+메모리: 133372 KB, 시간: 420 ms
 
 ### 분류
 
-구현(implementation), 시뮬레이션(simulation)
+구현, 시뮬레이션
 
 ### 문제 설명
 
@@ -41,9 +41,9 @@
 
 <p>다음은 확산의 예시이다.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 268px; height: 100px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/7b0d9d57-1296-44cd-8951-4135d27f9446/-/preview/" style="width: 268px; height: 100px;"></p>
 
-<p style="text-align: center;">왼쪽과 오른쪽에 칸이 없기 때문에, 두 방향으로만 확산이 일어났다.</p>
+<p style="text-align: center;">왼쪽과 위쪽에 칸이 없기 때문에, 두 방향으로만 확산이 일어났다.</p>
 
 <p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/cebebfa9-0056-45f1-b705-75b035888085/-/preview/" style="width: 268px; height: 100px;"></p>
 
@@ -55,7 +55,7 @@
 
 <p>공기청정기의 바람은 다음과 같은 방향으로 순환한다.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 332px; height: 300px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/94466937-96c7-4f25-9804-530ebd554a59/-/preview/" style="width: 332px; height: 300px;"></p>
 
 <p>방의 정보가 주어졌을 때, T초가 지난 후 구사과의 방에 남아있는 미세먼지의 양을 구해보자.</p>
 
