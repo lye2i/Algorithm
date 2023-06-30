@@ -1,7 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,26 +11,25 @@ public class Main {
 		int D = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		int C = Integer.parseInt(st.nextToken());
-		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		int sushi[] = new int[N+K];
-		int answer = 0;
+		int num[] = new int[D+1];
+		int cnt = 1;
 		
 		for(int i=0; i<N; i++) {
 			sushi[i] = Integer.parseInt(br.readLine());
 		}
 		
-		map.put(C, 1);
+		num[C]++;
 		for(int i=0; i<K; i++) {
 			sushi[N+i] = sushi[i];
-			map.put(sushi[i], map.getOrDefault(sushi[i], 0)+1);
+			if(++num[sushi[i]] == 1)	cnt++;
 		}
-		answer = map.size();
+		int answer = cnt;
 		
 		for(int i=K; i<N+K-1; i++) {
-			map.put(sushi[i-K], map.get(sushi[i-K])-1);
-			map.put(sushi[i], map.getOrDefault(sushi[i], 0)+1);
-			if(map.get(sushi[i-K]) == 0)	map.remove(sushi[i-K]);
-			answer = Math.max(answer, map.size());
+			if(--num[sushi[i-K]] == 0)	cnt--;
+			if(++num[sushi[i]] == 1)	cnt++;
+			answer = Math.max(answer, cnt);
 		}
 		
 		System.out.print(answer);
