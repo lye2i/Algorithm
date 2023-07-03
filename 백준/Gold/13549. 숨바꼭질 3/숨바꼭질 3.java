@@ -1,45 +1,47 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
 
 public class Main {
+	static int N, M;
 	
-	public static void main(String[] args) throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		int answer = 0;
+	static int search() {
+		Deque<int[]> deque = new LinkedList<int[]>();
 		boolean visit[] = new boolean[100001];
-		
-		Deque<int[]> queue = new LinkedList<int[]>();
-		queue.add(new int[] {N, 0});
 		visit[N] = true;
+		deque.add(new int[] {N, 0});
 		
-		while(!queue.isEmpty()) {
-			int[] subin = queue.poll();
-			
-			if(subin[0] == K) {
-				answer = subin[1];
-				break;
+		while(!deque.isEmpty()) {
+			int n[] = deque.poll();
+			if(n[0] == M)	return n[1];
+
+			if(n[0]*2 <= 100000 && !visit[n[0]*2]) {
+				visit[n[0]*2] = true;
+				deque.addFirst(new int[] {n[0]*2, n[1]});
 			}
 			
-			if(subin[0]*2 <= 100000 && !visit[subin[0]*2]) {
-				visit[subin[0]*2] = true;
-				queue.addFirst(new int[] {subin[0]*2, subin[1]});
+			if(n[0]-1 >= 0 && !visit[n[0]-1]) {
+				visit[n[0]-1] = true;
+				deque.add(new int[] {n[0]-1, n[1]+1});
 			}
 			
-			if(subin[0]+1 <= 100000 && !visit[subin[0]+1]) {
-				visit[subin[0]+1] = true;
-				queue.add(new int[] {subin[0]+1, subin[1]+1});
+			if(n[0]+1 <= 100000 && !visit[n[0]+1])	{
+				visit[n[0]+1] = true;
+				deque.add(new int[] {n[0]+1, n[1]+1});
 			}
-			
-			if(subin[0]-1 >= 0 && !visit[subin[0]-1]) {
-				visit[subin[0]-1] = true;
-				queue.add(new int[] {subin[0]-1, subin[1]+1});
-			}
-			
 		}
 		
-		System.out.print(answer);
+		return 0;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		
+		System.out.print(search());
 	}
 }
