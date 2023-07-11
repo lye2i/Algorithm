@@ -18,7 +18,7 @@ public class Main {
 		Arrays.sort(A);
 		
 		int left = 1, right = A[N-1] - A[0] + 1, ans = 0;
-		while(left < right) {
+		while(left <= right) {
 			int mid = (right + left) / 2;
 			int cnt = 1, idx = 0;
 			
@@ -29,9 +29,9 @@ public class Main {
 				}
 			}
 			
-			if(cnt < C) right = mid;
+			if(cnt < C) right = mid - 1;
 			else {
-				ans = Math.max(ans, mid);
+				ans = mid;
 				left = mid + 1;
 			}
 		}
