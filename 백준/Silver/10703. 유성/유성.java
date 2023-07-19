@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -7,6 +8,7 @@ import java.io.BufferedWriter;
 public class Main {
 	static int R, S;
 	static char G[][];
+	static ArrayList<int[]> star;
 	
 	public static int getCnt() {
 		int min = R;
@@ -22,18 +24,21 @@ public class Main {
 				}
 			}
 			
-			if(s != -1)	min = Math.min(g-s, min);
+			if(s != -1) {
+				star.add(new int[] {j, s});
+				min = Math.min(g-s, min);
+			}
 		}
 		
 		return min;
 	}
 	
 	public static void move(int min) {
-		for(int j=0; j<S; j++) {
-			for(int i=R-1; i>=0; i--) {
-				if(G[i][j] == 'X') {
-					G[i+min][j] = 'X';
-					G[i][j] = '.';
+		for(int[] s : star) {
+			for(int i = s[1]; i>=0; i--) {
+				if(G[i][s[0]] == 'X') {
+					G[i+min][s[0]] = 'X';
+					G[i][s[0]] = '.';
 				}
 			}
 		}
@@ -46,6 +51,7 @@ public class Main {
 		R = Integer.parseInt(st.nextToken());
 		S = Integer.parseInt(st.nextToken());
 		G = new char[R][S];
+		star = new ArrayList<int[]>();
 		
 		for(int i=0; i<R; i++) {
 			G[i] = br.readLine().toCharArray();
