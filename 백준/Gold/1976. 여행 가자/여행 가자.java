@@ -5,50 +5,55 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M, C[][], plan[];
+	static int N, M, city[];
+	static boolean E[][], visit[];
 	
-	public static boolean travel() {
-		boolean visit[] = new boolean[N];
+	static void travel() {
 		Queue<Integer> queue = new LinkedList<Integer>();
-		visit[plan[0]] = true;
-		queue.add(plan[0]);
-		
+		visit[city[0]] = true;
+		queue.add(city[0]);
+
 		while(!queue.isEmpty()) {
-			int c = queue.poll();
+			int n = queue.poll();
 			for(int j=0; j<N; j++) {
-				if(C[c][j] == 1 && !visit[j]) {
-					visit[j] = true;
-					queue.add(j);
-				}
+				if(visit[j] || !E[n][j])	continue;
+				
+				visit[j] = true;
+				queue.add(j);
 			}
 		}
-		
-		for(int i=0; i<M; i++) {
-			if(!visit[plan[i]])	return false;
+	}
+	
+	static boolean possible() {
+		for(int c : city) {
+			if(!visit[c])	return false;
 		}
 		
 		return true;
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
 		M = Integer.parseInt(br.readLine());
-		C = new int[N][N];
-		plan = new int[M];
+		city = new int[M];
+		E = new boolean[N][N];
+		visit = new boolean[N];
 		
 		for(int i=0; i<N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < N; j++)
-				C[i][j] = Integer.parseInt(st.nextToken());
+			for(int j=0; j<N; j++) {
+				if(Integer.parseInt(st.nextToken()) == 1)	E[i][j] = true;
+			}
 		}
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<M; i++) {
-			plan[i] = Integer.parseInt(st.nextToken())-1;
+			city[i] = Integer.parseInt(st.nextToken())-1;
 		}
 		
-		System.out.print(travel() ? "YES" : "NO");
+		travel();
 		
+		System.out.print(possible() ? "YES" : "NO");
 	}
 }
