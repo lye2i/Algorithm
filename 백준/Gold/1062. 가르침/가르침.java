@@ -1,82 +1,64 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M, ans;
-	static ArrayList<HashSet<Integer>> words;
-	static ArrayList<Integer> alpha;
-	static boolean eng[];
+	static int N, K, ans;
+	static String[] word;
+	static boolean alpha[];
 	
-	static void init(HashSet<Integer> set) {
-		eng = new boolean[26];
-		eng['a'-'a'] = true;
-		eng['n'-'a'] = true;
-		eng['t'-'a'] = true;
-		eng['i'-'a'] = true;
-		eng['c'-'a'] = true;
-		
-		alpha = new ArrayList<Integer>();
-		for(int i : set) {
-			if(!eng[i]) alpha.add(i);
-		}
-	}
-	
-	static void teach(int idx, int cnt) {
-		if(cnt == M) {
-			read();
+	private static void teach(int idx, int cnt) {
+		if(cnt == K) {
+			ans = Math.max(ans, read());
 			return;
 		}
 		
-		for(int i=idx; i<alpha.size(); i++) {
-			if(!eng[alpha.get(i)]) {
-				eng[alpha.get(i)] = true;
-				teach(i+1, cnt+1);
-				eng[alpha.get(i)] = false;
+		for(int i=idx; i<26; i++) {
+			if(!alpha[i]) {
+				alpha[i] = true;
+				teach(i, cnt+1);
+				alpha[i] = false;
 			}
 		}
 	}
-	
-	static void read() {
+
+	private static int read() {
 		int cnt = 0;
-		for(HashSet<Integer> word : words) {
-			boolean flag = true;
-			for(int i : word) {
-				if(!eng[i]) {
-					flag = false;
-					break;
-				}
+		for(String s : word) {
+			int i = s.length();
+			while(--i >= 0) {
+				if(!alpha[s.charAt(i) - 'a'])	break;
 			}
-			
-			if(flag)	cnt++;
+			if(i == -1)	cnt++;
 		}
-		
-		ans = Math.max(ans, cnt);
+		return cnt;
 	}
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken())-5;
+		K = Integer.parseInt(st.nextToken());
+		word = new String[N];
+		alpha = new boolean[26];
 		ans = 0;
-		words = new ArrayList<HashSet<Integer>>();
-		HashSet<Integer> total = new HashSet<Integer>();
 		
 		for(int i=0; i<N; i++) {
-			HashSet<Integer> set = new HashSet<Integer>();
-			char word[] = br.readLine().toCharArray();
-			
-			for(int j=4; j<word.length-4; j++) {
-				set.add(word[j]-'a');
-				total.add(word[j]-'a');
-			}
-			
-			words.add(set);
+			String s = br.readLine();
+			word[i] = s.substring(4, s.length()-4);
 		}
 		
-		init(total);
-		if(M >= alpha.size())	ans = N;
-		else if(M >= 0)	teach(0, 0);
+		if(K == 26)	ans = N;
+		else if(K >= 5) {
+			K -= 5;
+			alpha['a'-'a'] = true;
+			alpha['n'-'a'] = true;
+			alpha['t'-'a'] = true;
+			alpha['i'-'a'] = true;
+			alpha['c'-'a'] = true;
+			
+			teach(0, 0);
+		}
 		
 		System.out.print(ans);
 	}
