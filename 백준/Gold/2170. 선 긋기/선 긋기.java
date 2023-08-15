@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -23,16 +24,16 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-		Point point[] = new Point[N];
+		ArrayList<Point> point = new ArrayList<Point>();
 		
 		for(int i=0; i<N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			point[i] = new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+			point.add(new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
 		}
 		
-		Arrays.sort(point);
+		Collections.sort(point);
 		
-		int ans = point[0].y - point[0].x, cur = point[0].y;
+		int ans = point.get(0).y - point.get(0).x, cur = point.get(0).y;
 		for(Point p : point) {
 			if(p.y <= cur)	continue;
 			
