@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -12,18 +11,23 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		T = new int[N];
+		int left = 0, right = 0, ans = 0;
+		
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++) {
 			T[i] = Integer.parseInt(st.nextToken());
+			right = Math.max(right, T[i]);
 		}
 		
-		Arrays.sort(T);
-		
-		int left = 0, right = T[N-1], ans = 0;
 		while(left <= right) {
 			int h = (left + right) / 2;
+			long cnt = 0;
 			
-			if(!check(h))	right = h - 1;
+			for(int t : T) {
+				if(t > h)	cnt += t - h;
+			}
+			
+			if(cnt < M)	right = h - 1;
 			else {
 				ans = Math.max(ans, h);
 				left = h + 1;
@@ -31,14 +35,5 @@ public class Main {
 		}
 		
 		System.out.print(ans);
-	}
-	
-	public static boolean check(int h) {
-		long cnt = 0;
-		for(int i=N-1; i>=0; i--) {
-			if(T[i] - h > 0)	cnt += (long)(T[i] - h);
-			else	break;
-		}
-		return cnt >= M ? true : false;
 	}
 }
