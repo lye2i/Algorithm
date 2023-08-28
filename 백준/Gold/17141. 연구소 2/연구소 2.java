@@ -7,8 +7,8 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static final int r[] = {-1,0,1,0}, c[] = {0,1,0,-1};
-	static int N, M, A[][], T;
-	static ArrayList<Point> virus, blank;
+	static int N, M, A[][], T, B;
+	static ArrayList<Point> virus;
 	static boolean visit[][];
 	static Queue<Point> queue;
 	
@@ -24,8 +24,7 @@ public class Main {
 	static void combination(int idx, int cnt, boolean select[]) {
 		if(cnt == M) {
 			selectVirus(select);
-			int time = spreadVirus();
-			if(checkVirus())	T = Math.min(time, T);
+			T = Math.min(T, spreadVirus());
 			return;
 		}
 		
@@ -51,10 +50,11 @@ public class Main {
 	}
 	
 	static int spreadVirus() {
-		int time = 0;
+		int time = 0, cnt = 0;
 		
 		while(!queue.isEmpty()) {
 			Point p = queue.poll();
+			cnt++;
 			
 			for(int d=0; d<4; d++) {
 				int dr = p.x + r[d];
@@ -67,14 +67,7 @@ public class Main {
 			}
 		}
 		
-		return time;
-	}
-	
-	static boolean checkVirus() {
-		for(Point p : blank) {
-			if(!visit[p.x][p.y])	return false;
-		}
-		return true;
+		return cnt == B ? time : Integer.MAX_VALUE;
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -83,9 +76,9 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		A = new int[N][N];
+		B = 0;
 		T = Integer.MAX_VALUE;
 		virus = new ArrayList<Point>();
-		blank = new ArrayList<Point>();
 		queue = new LinkedList<Point>();
 		
 		for(int i=0; i<N; i++) {
@@ -93,7 +86,7 @@ public class Main {
 			for(int j=0; j<N; j++) {
 				A[i][j] = Integer.parseInt(st.nextToken());
 				
-				if(A[i][j] != 1)	blank.add(new Point(i, j, 0));
+				if(A[i][j] != 1)	B++;
 				if(A[i][j] == 2)	virus.add(new Point(i, j, 0));
 			}
 		}
