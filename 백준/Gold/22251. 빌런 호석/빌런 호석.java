@@ -3,34 +3,31 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, K, P, X, answer, num[];
-	static boolean number[][] = {{true, true, true, true, true, true, false}, {false, true, true, false, false, false, false}, 
+	static int N, K, P, X, answer, floor[];
+	static final boolean number[][] = {{true, true, true, true, true, true, false}, {false, true, true, false, false, false, false}, 
 			{true, true, false, true, true, false, true}, {true, true, true, true, false, false, true},
 			{false, true, true, false, false, true, true}, {true, false, true, true, false, true, true},
 			{true, false, true, true, true, true, true}, {true, true, true, false, false, false, false},
 			{true, true, true, true, true, true, true}, {true, true, true, true, false, true, true}};
 	
-	static void reverse(int cnt, int idx, int floor, int led[]) {
-		if(idx == K) {
-			if(floor != 0 && floor != X)	answer++;
-			return;
-		}
-		
-		for(int i=0; i<10; i++) {
-			int n = (int)Math.pow(10, (K-idx-1)) * i + floor;
-			
-			if(n <= N) {
-				int r = 0;
-				for(int j=0; j<7; j++) {
-					if(number[num[idx]][j] != number[i][j])	r++;
-				}
-
-				if(r+cnt <= P) {
-					led[idx] = i;
-					reverse(cnt+r, idx+1, n, led);
-				}
+	static boolean check(int num[]) {
+		int cnt = 0;
+		for(int i=0; i<K; i++) {
+			for(int j=0; j<7; j++) {
+				if(number[floor[i]][j] != number[num[i]][j])	cnt++;
 			}
+			if(cnt > P)	return false;
 		}
+		return true;
+	}
+	
+	static int[] getNum(int X) {
+		int num[] = new int[K];
+		for(int i=0; i<K; i++) {
+			num[i] = X % 10;
+			X /= 10;
+		}
+		return num;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -40,16 +37,13 @@ public class Main {
 		K = Integer.parseInt(st.nextToken());
 		P = Integer.parseInt(st.nextToken());
 		X = Integer.parseInt(st.nextToken());
-		num = new int[K];
-		int idx = K, n = X;
+		floor = getNum(X);
+		answer = 0;
 		
-		while(idx-- > 0) {
-			num[idx] = n % 10;
-			n /= 10;
+		for(int i=1; i<=N; i++) {
+			if(check(getNum(i)))	answer++;
 		}
 		
-		reverse(0, 0, 0, new int[K]);
-		
-		System.out.print(answer);
+		System.out.print(answer-1);
 	}
 }
