@@ -10,18 +10,17 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		ArrayList<Integer> plus = new ArrayList<Integer>();
 		ArrayList<Integer> minus = new ArrayList<Integer>();
-		int zero = 0, answer = 0;
+		int answer = 0;
 		
 		for(int i=0; i<N; i++) {
 			int n = Integer.parseInt(br.readLine());
 			
 			if(n > 0)	plus.add(n);
-			else if(n < 0)	minus.add(n);
-			else	zero++;
+			else	minus.add(n);
 		}
 		
 		Collections.sort(plus);
-		Collections.sort(minus);
+		Collections.sort(minus, Collections.reverseOrder());
 		
 		if(plus.size()%2 == 1)	answer += plus.get(0);
 		for(int i=plus.size()-1; i>0; i-=2) {
@@ -29,15 +28,9 @@ public class Main {
 			else	answer += plus.get(i) + plus.get(i-1);
 		}
 		
-		if(minus.size()%2 == 0) {
-			for(int i=0; i<minus.size(); i+=2) {
-				answer += (minus.get(i) * minus.get(i+1));
-			}
-		} else {
-			for(int i=0; i<minus.size()-1; i+=2) {
-				answer += (minus.get(i) * minus.get(i+1));
-			}
-			if(zero == 0)	answer += minus.get(minus.size()-1);
+		if(minus.size()%2 == 1)	answer += minus.get(0);
+		for(int i=minus.size()-1; i>0; i-=2) {
+			answer += minus.get(i) * minus.get(i-1);
 		}
 		
 		System.out.print(answer);
