@@ -1,43 +1,49 @@
 import java.util.*;
 
 class Solution {
-    public int solution(int n, int[][] wires) {
-        int answer = Integer.MAX_VALUE;        
-        boolean map[][] = new boolean[n][n];
+    static int N;
+    static boolean top[][];
+    
+    public int bfs(int n, boolean visit[]) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        int cnt = 0;
+        visit[n] = true;
+        queue.add(n);
         
-        for(int i=0; i<wires.length; i++) {
-            map[wires[i][0]-1][wires[i][1]-1] = true;
-            map[wires[i][1]-1][wires[i][0]-1] = true;
-        }
-        
-        for(int i=0; i<wires.length; i++) {
-            map[wires[i][0]-1][wires[i][1]-1] = false;
-            map[wires[i][1]-1][wires[i][0]-1] = false;
+        while(!queue.isEmpty()) {
+            int t = queue.poll();
+            cnt++;
             
-            int cnt = 0;
-            Queue<Integer> queue = new LinkedList<Integer>();
-            boolean visit[] = new boolean[n];
-            queue.offer(0);
-            visit[0] = true;
-            
-            while(!queue.isEmpty()) {
-                int num = queue.poll();
-                for(int j=0; j<n; j++){
-                    if(!visit[j] && map[j][num]) {
-                        visit[j] = true;
-                        queue.offer(j);
-                    }
+            for(int i=0; i<=N; i++) {
+                if(top[t][i] && !visit[i]) {
+                    visit[i] = true;
+                    queue.add(i);
                 }
             }
+        }
+        
+        return cnt;
+    }
+    
+    public int solution(int n, int[][] wires) {
+        N = n;
+        top = new boolean[n+1][n+1];
+        int answer = 100;
+        
+        for(int wire[] : wires) {
+            top[wire[0]][wire[1]] = true;
+            top[wire[1]][wire[0]] = true;
+        }
+        
+        for(int wire[] : wires) {
+            boolean visit[] = new boolean[n+1];
             
-            map[wires[i][0]-1][wires[i][1]-1] = true;
-            map[wires[i][1]-1][wires[i][0]-1] = true;
+            top[wire[0]][wire[1]] = false;
+            top[wire[1]][wire[0]] = false;
             
-            for(int j=0; j<n; j++){
-                if(visit[j])    cnt++;
-            }
-            
-            answer = Math.min(answer, Math.abs(n-cnt-cnt));            
+            answer = Math.min(Math.abs(bfs(wire[0], visit)-bfs(wire[1], visit)), answer);
+            top[wire[0]][wire[1]] = true;
+            top[wire[1]][wire[0]] = true;
         }
         
         return answer;
