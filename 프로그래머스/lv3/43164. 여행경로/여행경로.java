@@ -30,10 +30,6 @@ class Solution {
             }
         });
         
-        for(String str[] : tickets) {
-            System.out.println(str[0]+" "+str[1]);
-        }
-        
         answer[0] = "ICN";
         DFS(0, tickets, new boolean[N]);
         
