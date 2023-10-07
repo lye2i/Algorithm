@@ -4,8 +4,9 @@ class Solution {
     static int N;
     static boolean top[][];
     
-    public int bfs(int n, boolean visit[]) {
+    public int bfs(int n) {
         Queue<Integer> queue = new LinkedList<Integer>();
+        boolean visit[] = new boolean[N+1];
         int cnt = 0;
         visit[n] = true;
         queue.add(n);
@@ -36,12 +37,11 @@ class Solution {
         }
         
         for(int wire[] : wires) {
-            boolean visit[] = new boolean[n+1];
-            
             top[wire[0]][wire[1]] = false;
             top[wire[1]][wire[0]] = false;
             
-            answer = Math.min(Math.abs(bfs(wire[0], visit)-bfs(wire[1], visit)), answer);
+            answer = Math.min(Math.abs(n - 2*bfs(wire[0])), answer);
+            
             top[wire[0]][wire[1]] = true;
             top[wire[1]][wire[0]] = true;
         }
