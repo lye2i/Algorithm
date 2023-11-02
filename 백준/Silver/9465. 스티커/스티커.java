@@ -22,8 +22,8 @@ public class Main {
 			}
 			
 			for(int i=2; i<=N; i++) {
-				sticker[0][i] = Math.max(sticker[1][i-1], Math.max(sticker[0][i-2], sticker[1][i-2])) + sticker[0][i];
-				sticker[1][i] = Math.max(sticker[0][i-1], Math.max(sticker[0][i-2], sticker[1][i-2])) + sticker[1][i];
+				sticker[0][i] = Math.max(sticker[1][i-1], sticker[1][i-2]) + sticker[0][i];
+				sticker[1][i] = Math.max(sticker[0][i-1], sticker[0][i-2]) + sticker[1][i];
 			}
 			
 			sb.append(Math.max(sticker[0][N], sticker[1][N])).append('\n');
