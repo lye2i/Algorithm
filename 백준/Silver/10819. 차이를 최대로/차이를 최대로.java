@@ -1,40 +1,43 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, A[], ans;
+	static int N, ans, num[];
 	
-	static void permutation(int idx, int num[], boolean visit[]) {
+	public static void calc(int idx, int arr[], boolean visit[]) {
 		if(idx == N) {
 			int max = 0;
-			for(int i=0; i<N-1; i++) {
-				max += Math.abs(num[i] - num[i+1]);
+			for(int i=2; i<=N; i++) {
+				max += Math.abs(arr[i-2] - arr[i-1]);
 			}
-			ans = Math.max(max, ans);
+			ans = Math.max(ans, max);
 			return;
 		}
 		
 		for(int i=0; i<N; i++) {
 			if(!visit[i]) {
 				visit[i] = true;
-				num[idx] = A[i];
-				permutation(idx+1, num, visit);
+				arr[idx] = num[i];
+				calc(idx+1, arr, visit);
 				visit[i] = false;
 			}
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
-		A = new int[N];
+		num = new int[N];
+		ans = 0;
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		
 		for(int i=0; i<N; i++) {
-			A[i] = Integer.parseInt(st.nextToken());
+			num[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		permutation(0, new int[N], new boolean[N]);
+		calc(0, new int[N], new boolean[N]);
 		System.out.print(ans);
 	}
 }
