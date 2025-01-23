@@ -1,61 +1,61 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int R, C, O, V;
-	static int r[] = {0,0,1,-1}, c[] = {1,-1,0,0};
-	static char map[][];
-	static boolean visit[][];
-	
-	static void bfs(int x, int y) {
-		int o = map[x][y] == 'o' ? 1 : 0;
-		int v = map[x][y] == 'v' ? 1 : 0;
-		Queue<int[]> queue = new LinkedList<int[]>();
-		queue.offer(new int[] {x, y});
-		
-		while(!queue.isEmpty()) {
-			int s[] = queue.poll();
-			for(int d=0; d<4; d++) {
-				int dr = s[0] + r[d];
-				int dc = s[1] + c[d];
-				if(dr >= 0 && dr < R && dc >= 0 && dc < C && !visit[dr][dc] && map[dr][dc] != '#') {
-					visit[dr][dc] = true;
-					if(map[dr][dc] == 'o')	o++;
-					else if(map[dr][dc] == 'v')	v++;
-					queue.offer(new int[] {dr, dc});
-				}
-			}
-		}
-		
-		if(v >= o)	V += v;
-		else	O += o;
-	}
-	
-	public static void main(String[] args) throws Exception {
+	final static int r[] = {-1, 0, 1, 0};
+	final static int c[] = {0, 1, 0, -1};
+
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		R = Integer.parseInt(st.nextToken());
-		C = Integer.parseInt(st.nextToken());
-		map = new char[R][C];
-		visit = new boolean[R][C];
-		O = 0; V = 0;
+		int R = Integer.parseInt(st.nextToken());
+		int C = Integer.parseInt(st.nextToken());
+		char map[][] = new char[R][C];
+		boolean visit[][] = new boolean[R][C];
+		int S = 0, W = 0;
 		
 		for(int i=0; i<R; i++) {
-			map[i] = br.readLine().toCharArray(); 
+			map[i] = br.readLine().toCharArray();
 		}
 		
 		for(int i=0; i<R; i++) {
 			for(int j=0; j<C; j++) {
-				if(!visit[i][j] && map[i][j] != '#' && map[i][j] != '.') {
+				if(!visit[i][j] && map[i][j] != '#') {
+					int s = 0, w = 0;
+					Queue<int[]> queue = new LinkedList<int[]>();
 					visit[i][j] = true;
-					bfs(i, j);
+					queue.add(new int[] {i, j});
+					
+					while(!queue.isEmpty()) {
+						int g[] = queue.poll();
+						
+						if(map[g[0]][g[1]] == 'o')	s++;
+						else if(map[g[0]][g[1]] == 'v')	w++;
+						
+						for(int d=0; d<4; d++) {
+							int dr = g[0] + r[d];
+							int dc = g[1] + c[d];
+							
+							if(dr < 0 || dr >= R || dc < 0 || dc >= C || visit[dr][dc] || map[dr][dc] == '#')	continue;
+							
+							visit[dr][dc] = true;
+							queue.add(new int[] {dr,dc});
+						}
+					}
+					
+					if(s > w)	w = 0;
+					else	s = 0;
+					
+					S += s;
+					W += w;
 				}
 			}
 		}
 		
-		System.out.print(O+" "+V);
+		System.out.print(S + " " + W);
 	}
 }
