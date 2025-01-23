@@ -1,68 +1,68 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
 public class Main {
-
-	static class Player implements Comparable<Player> {
-		int l;
-		String n;
-
-		Player(int l, String n) {
-			this.l = l;
-			this.n = n;
+	static class Player implements Comparable<Player>{
+		int level;
+		String name;
+		public Player(int level, String name) {
+			this.level = level;
+			this.name = name;
 		}
-
 		@Override
-		public int compareTo(Player p) {
-			return this.n.compareTo(p.n);
+		public int compareTo(Player o) {
+			return this.name.compareTo(o.name);
+		}
+	}
+	
+	static class Room {
+		int level;
+		ArrayList<Player> players = new ArrayList<Player>();
+		
+		public Room(Player p) {
+			this.level = p.level;
+			players.add(p);
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int P = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		ArrayList<ArrayList<Player>> room = new ArrayList<ArrayList<Player>>();
-
-		for (int i = 0; i < P; i++) {
+		int p = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		
+		for(int i=0; i<p; i++) {
 			st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			String n = st.nextToken();
-			boolean flag = false;
-
-			for (int j = 0; j < room.size(); j++) {
-				if (room.get(j).size() < M) {
-					int level = room.get(j).get(0).l;
-					if (l >= level - 10 && l <= level + 10) {
-						room.get(j).add(new Player(l, n));
-						flag = true;
-						break;
-					}
+			Player player = new Player(Integer.parseInt(st.nextToken()), st.nextToken());
+			boolean go = false;
+			
+			for(Room room : rooms) {
+				if(room.players.size() == m)	continue;
+				if(room.level+10 >= player.level && room.level-10 <= player.level) {
+					go = true;
+					room.players.add(player);
+					break;
 				}
 			}
-
-			if (!flag) {
-				room.add(new ArrayList<Player>());
-				room.get(room.size() - 1).add(new Player(l, n));
+			
+			if(!go) {
+				rooms.add(new Room(player));
 			}
 		}
-
-		for (int i = 0; i < room.size(); i++) {
-			ArrayList<Player> r = room.get(i);
-			
-			if (r.size() == M)	bw.write("Started!\n");
-			else	bw.write("Waiting!\n");
-
-			Collections.sort(r);
-
-			for (int j = 0; j < r.size(); j++)
-				bw.write(r.get(j).l + " " + r.get(j).n + "\n");
-
+		
+		StringBuilder sb = new StringBuilder();
+		for(Room room : rooms) {
+			sb.append(room.players.size() == m ? "Started!\n" : "Waiting!\n");
+			Collections.sort(room.players);
+			for(Player player : room.players) {
+				sb.append(player.level + " " + player.name + "\n");
+			}
 		}
-		
-		bw.flush();
-		
+		System.out.print(sb);
 	}
 }
