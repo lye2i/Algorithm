@@ -1,45 +1,44 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		char ball[] = br.readLine().toCharArray();
-		int R = 0, B = 0, r = 0, b = 0, ans = 0;
+		int R = 0, B = 0, rCnt = 0, bCnt = 0, answer = 500000;
 		
 		for(int i=0; i<N; i++) {
 			if(ball[i] == 'R') {
-				r++;
-				B += b;
-				b = 0;
-			}
-			else {
-				b++;
-				R += r;
-				r = 0;
+				rCnt++;
+				B += bCnt;
+				bCnt = 0;
+			} else {
+				bCnt++;
+				R += rCnt;
+				rCnt = 0;
 			}
 		}
 		
-		ans = Math.min(R, B);
+		answer = Math.min(R, B);
 		
-		R = 0; B = 0; r = 0; b = 0;		
+		R = 0; B = 0; rCnt = 0; bCnt = 0;
 		for(int i=N-1; i>=0; i--) {
 			if(ball[i] == 'R') {
-				r++;
-				B += b;
-				b = 0;
-			}
-			else {
-				b++;
-				R += r;
-				r = 0;
+				rCnt++;
+				B += bCnt;
+				bCnt = 0;
+			} else {
+				bCnt++;
+				R += rCnt;
+				rCnt = 0;
 			}
 		}
 		
-		ans = Math.min(Math.min(R, B), ans);
+		answer = Math.min(answer, Math.min(R, B));
 		
-		System.out.print(ans);
+		System.out.print(answer);
 	}
 }
