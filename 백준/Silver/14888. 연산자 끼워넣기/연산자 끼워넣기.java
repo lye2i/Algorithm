@@ -1,53 +1,54 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n[], min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+	static int N, num[], min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 	
-	public static void cal(int d[], int p[], int idx) {
-		if(idx == n.length-1) {
-			int a = n[0];
-			for(int i=0; i<idx; i++) {
-				if(d[i] == 0)	a += n[i+1];
-				else if(d[i] == 1)	a -= n[i+1];
-				else if(d[i] == 2) a *= n[i+1];
-				else	{
-					if(a < 0)	a = -(Math.abs(a) / n[i+1]);
-					else	a /= n[i+1];
+	public static void cal(int idx, int op[], int arr[]) {
+		if(idx == N-1) {
+			int n = num[0];
+			for(int i=0; i<N-1; i++) {
+				if(arr[i] == 0)	n += num[i+1];
+				else if(arr[i] == 1) n -= num[i+1];
+				else if(arr[i] == 2) n *= num[i+1];
+				else {
+					n = (n > 0) ? n/num[i+1] : -(Math.abs(n)/num[i+1]);
 				}
 			}
 			
-			min = Math.min(a, min);
-			max = Math.max(a, max);
+			min = Math.min(min, n);
+			max = Math.max(max, n);
 			return;
 		}
 		
 		for(int i=0; i<4; i++) {
-			if(p[i] != 0) {
-				d[idx] = i;
-				p[i]--;
-				cal(d, p, idx+1);
-				p[i]++;
+			if(op[i] > 0) {
+				arr[idx] = i;
+				op[i]--;
+				cal(idx+1, op, arr);
+				op[i]++;
 			}
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
+		N = Integer.parseInt(br.readLine());
+		num = new int[N];
+		int op[] = new int[4];
+		
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = new int[N];
-		int p[] = new int[4];
-		
-		for(int i=0; i<N; i++)
-			n[i] = Integer.parseInt(st.nextToken());
-		
+		for(int i=0; i<N; i++) {
+			num[i] = Integer.parseInt(st.nextToken());
+		}
 		st = new StringTokenizer(br.readLine());
-		for(int j=0; j<4; j++)
-			p[j] = Integer.parseInt(st.nextToken());
+		for(int i=0; i<4; i++) {
+			op[i] = Integer.parseInt(st.nextToken());
+		}
 		
-		cal(new int[n.length-1], p, 0);
+		cal(0, op, new int[N-1]);
 		
 		System.out.print(max+"\n"+min);
 	}
