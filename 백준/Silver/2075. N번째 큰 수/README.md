@@ -1,14 +1,18 @@
-# [Silver II] N번째 큰 수 - 2075 
+# [Silver III] N번째 큰 수 - 2075 
 
 [문제 링크](https://www.acmicpc.net/problem/2075) 
 
 ### 성능 요약
 
-메모리: 334596 KB, 시간: 920 ms
+메모리: 273972 KB, 시간: 800 ms
 
 ### 분류
 
-자료 구조(data_structures), 우선순위 큐(priority_queue), 정렬(sorting)
+자료 구조, 우선순위 큐, 정렬
+
+### 제출 일자
+
+2025년 3월 3일 10:57:39
 
 ### 문제 설명
 
