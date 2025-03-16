@@ -1,23 +1,24 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String str = br.readLine();
-		int acnt = 0, ans = 1000, length = str.length();
+		char str[] = br.readLine().toCharArray();
+		int ans = 1000, acnt = 0, N = str.length;
 		
-		for(int i=0; i<length; i++) {
-			if(str.charAt(i) == 'a')	acnt++;
+		for(int i=0; i<N; i++) {
+			if(str[i] == 'a')	acnt++;
 		}
 		
-		for(int i=0; i<length; i++) {
+		for(int i=0; i<N; i++) {
 			int bcnt = 0;
 			for(int j=0; j<acnt; j++) {
-				if(str.charAt((j+i)%length) == 'b')	bcnt++;
+				if(str[(i+j)%N] == 'b')	bcnt++;
 			}
-			ans = Math.min(bcnt, ans);
+			ans = Math.min(ans, bcnt);
 		}
 		
 		System.out.print(ans);
