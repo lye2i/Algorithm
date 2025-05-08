@@ -1,38 +1,39 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, K, E[], cnt;
+	static int N, num[], ans;
 	
-	public static void exercise(int idx, boolean visit[], int kg) {
-		if(idx == N) {
-			cnt++;
+	static void game(int cnt, boolean visit[], int sum) {
+		if(cnt == N) {
+			ans++;
 			return;
 		}
 		
 		for(int i=0; i<N; i++) {
-			if(!visit[i] && kg-K+E[i] >= 500) {
+			if(!visit[i] && sum + num[i] >= 0) {
 				visit[i] = true;
-				exercise(idx+1, visit, kg-K+E[i]);
+				game(cnt+1, visit, sum+num[i]);
 				visit[i] = false;
 			}
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());
-		K = Integer.parseInt(st.nextToken());
-		E = new int[N];
-		cnt = 0;
+		num = new int[N];
+		int K = Integer.parseInt(st.nextToken());
 		
 		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			E[i] = Integer.parseInt(st.nextToken());
+		for(int i=0; i<N; i++) {
+			num[i] = Integer.parseInt(st.nextToken()) - K;
+		}
 		
-		exercise(0, new boolean[N], 500);
-		System.out.print(cnt);
+		game(0, new boolean[N], 0);
+		System.out.print(ans);
 	}
 }
